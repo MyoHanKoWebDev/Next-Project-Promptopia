@@ -19,10 +19,6 @@ const PromptCard = ({post, handleTagClick, handleEdit, handleDelete}) => {
     setTimeout(() => setCopied(""), 3000);
   }
 
-  console.log("Session User ID:", session?.user?.id);
-console.log("Post Creator ID:", post?.creator?._id?.toString());
-console.log("Current Pathname:", pathName);
-
   const userImage =
     post?.creator?.image && post.creator.image.trim() !== ""
       ? post.creator.image

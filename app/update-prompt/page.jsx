@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import Form from "@components/Form";
 
-const UpdatePrompt = () => {
+// 1. Move the search params and page logic into a inner component
+const EditPromptForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
 
-  const [post, setPost] = useState({ prompt: "", tag: "", });
   const [submitting, setIsSubmitting] = useState(false);
+  const [post, setPost] = useState({ prompt: "", tag: "" });
 
   useEffect(() => {
     const getPromptDetails = async () => {
@@ -54,12 +54,21 @@ const UpdatePrompt = () => {
 
   return (
     <Form
-      type='Edit'
+      type="Edit"
       post={post}
       setPost={setPost}
       submitting={submitting}
       handleSubmit={updatePrompt}
     />
+  );
+};
+
+// 2. Wrap the inner component inside <Suspense> in the exported page component
+const UpdatePrompt = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditPromptForm />
+    </Suspense>
   );
 };
 
